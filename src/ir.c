@@ -136,9 +136,21 @@ void necir()
 		++curpos;
 		SETTIMER(9000);
 	} else if (curpos == 1) {
-		ir(0);
-		++curpos;
-		SETTIMER(4500);
+		if (irbitlen == -1) {
+			if(bitpos == 0) {
+				ir(0);
+				SETTIMER(1690);
+				bitpos = 1;
+			} else {
+				ir(1);
+				SETTIMER(560);
+				++curpos;
+			}
+		} else {
+			ir(0);
+			++curpos;
+			SETTIMER(4500);
+		}
 	} else if (curpos - 2 == irbitlen) {
 		ir(1);
 		++curpos;
@@ -151,7 +163,7 @@ void necir()
 			P6OUT &= ~BIT0;
 			TA0CCTL0 &= ~CCIE;
 		} else {
-			SETTIMER(25100);
+			SETTIMER(45800);
 			curpos = 0;
 			irbitlen = -1;
 			--repate;
